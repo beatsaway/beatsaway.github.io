@@ -8,7 +8,7 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <style>
         body {
-            margin: 5;
+            margin: 0;
             padding: 0;
             font-size: 24px;
             font-family: 'Pirata One', cursive;
@@ -21,25 +21,25 @@
 
         button {
             font-family: 'Pirata One', sans-serif;
-            font-size: 25px;
+            font-size: 5vw; /* Adjusted font size using viewport width units */
         }
 
         .circle {
-            width: 52px;
-            height: 52px;
+            width: 10vw; /* Adjusted width using viewport width units */
+            height: 10vw; /* Adjusted height using viewport width units */
             background-color: blue;
             border-radius: 10%;
             position: absolute;
-            left:-100px;
-            bottom: 50px;
+            left: -20vw; /* Adjusted position using viewport width units */
+            bottom: 5vh; /* Adjusted position using viewport height units */
             cursor: pointer;
             border: 4px solid black;
             display: none;
         }
 
         .characterCard {
-            width: 102px;
-            height: 102px;
+            width: 20vw; /* Adjusted width using viewport width units */
+            height: 20vw; /* Adjusted height using viewport width units */
             background-color: blue;
             border-radius: 15%;
             cursor: pointer;
@@ -48,8 +48,8 @@
         }
 
         #container {
-            height: 1712px;
-            width: 1284px;
+            height: auto;
+            width: auto;
             max-width: 98%;
             max-height: 98%;
             margin: 0;
@@ -67,9 +67,7 @@
         }
 
         #imgframe {
-
             display: inline-block;
-
             margin: 0;
             padding: 0;
             position: relative;
@@ -98,204 +96,23 @@
             padding: 20px;
             border-radius: 20px;
         }
+
+        /* Media query for smaller screens (e.g., phones) */
+        @media (max-width: 768px) {
+            button {
+                font-size: 10vw; /* Adjusted font size using viewport width units */
+            }
+
+            .circle {
+                width: 20vw; /* Adjusted width using viewport width units */
+                height: 20vw; /* Adjusted height using viewport width units */
+                left: -40vw; /* Adjusted position using viewport width units */
+            }
+
+            .characterCard {
+                width: 40vw; /* Adjusted width using viewport width units */
+                height: 40vw; /* Adjusted height using viewport width units */
+            }
+        }
     </style>
 </head>
-
-<body>
-
-    <div id="container">
-
-        <div id="board" style="position: relative;">
-            <div id="imgframe">
-                <img src="1piece.jpeg" alt="Game Board" id="board-image" draggable="false">
-                <div class="circle" id="circle7"></div>
-                <div class="circle" id="circle6"></div>
-                <div class="circle" id="circle5"></div>
-                <div class="circle" id="circle4"></div>
-                <div class="circle" id="circle3"></div>
-                <div class="circle" id="circle2"></div>
-                <div class="circle" id="circle1"></div>
-                <div class="circle" id="circle0"></div>
-            </div>
-        </div>
-
-        <div id="centered-content">
-            <span id="gameSetup">
-                <label for="numPlayers" style="font-size: 24px;">Number of Players:</label>
-                <input type="number" id="numPlayers" min="2" max="8" value="4" style="font-size: 24px;">
-                <button onclick="startGame()">Start Game</button>
-            </span>
-
-            <span id="reminder" style="display:none;">
-                <span class="characterCard" id="WhoseTurn"></span>
-                <span>'s turn. </span>
-                
-                <span id="dice" style="font-size: 190px;margin:0;padding:0;"></span><br />
-                <button onclick="rollDice()">Roll dice</button><br />
-                <button onclick="CloseReminder()">Click map to do move.</button><br />
-                <button onclick="showConfirmationDialog()">Click to finish turn.</button>
-            </span>
-
-            <span id="footmenu" style="position: relative;display:none;">
-                <span style="margin-left: 15px;" onclick="musicOnOff()">&#128264;&#127925;&#x2193;&#x2193;&#x2193;</span><br />
-                <iframe id="youtubePlayer" width="200" height="200"
-                    src="https://www.youtube.com/embed/V3r-YGGsKpk?si=EarTN_7fQhCm7a5w" title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; "
-                    allowfullscreen></iframe>
-            </span>
-        </div>
-
-    </div>
-
-    <script>
-        const circles = document.querySelectorAll('.circle');
-        let activeCircle = null;
-        let canMove = 0;
-        let numPlayers = 4;
-
-        function OpenReminder(){
-            const reminder = document.getElementById('reminder');
-            reminder.style.display = 'inline-block';
-            document.getElementById('WhoseTurn').style.display = 'inline-block';
-        }
-        function CloseReminder(){
-            const reminder = document.getElementById('reminder');
-            reminder.style.display = 'none';
-        }
-
-
-        function startGame() {
-            const gameSetup = document.getElementById('gameSetup');
-            gameSetup.style.display = 'none';
-            numPlayers = parseInt(document.getElementById('numPlayers').value);
-            const NoSame = [];
-
-            for (let i = 0; i < numPlayers; i++) {
-                const circle = document.getElementById('circle' + i);
-                let randomImageIndex;
-
-                do {
-                    randomImageIndex = Math.floor(Math.random() * 24); // Change 24 to the total number of images
-                } while (NoSame.includes(randomImageIndex));
-
-                NoSame.push(randomImageIndex);
-                circle.style.backgroundImage = `url('./Characters/circle${randomImageIndex}.jpg')`;
-                circle.style.backgroundSize = 'cover';
-                circle.style.display = 'block';
-            }
-
-            OpenReminder();
-
-            // Set the activeCircle to the first player's circle
-            activeCircle = document.getElementById('circle0');
-            updateReminder();
-        }
-        //check if any circles are moving
-        let MoveOrNot = false;
-
-        function updateReminder() {
-            const whoseTurnDiv = document.getElementById('WhoseTurn');
-            const circleId = "circle" + String(canMove);
-            const circleElement = document.getElementById(circleId);
-            const circleStyle = window.getComputedStyle(circleElement);
-            whoseTurnDiv.style.backgroundImage = circleStyle.getPropertyValue('background-image');
-            whoseTurnDiv.style.backgroundSize = 'cover';
-
-            // Enable click/tap behavior on the board-image
-            const boardImage = document.getElementById('board-image');
-            boardImage.addEventListener('click', (e) => {
-                if (activeCircle === null) return;
-
-                const containerRect = document.getElementById('board').getBoundingClientRect();
-                const newX = e.clientX - containerRect.left - activeCircle.offsetWidth / 2;
-                const newY = e.clientY - containerRect.top - activeCircle.offsetHeight / 2;
-                MoveOrNot = true; 
-                moveCircleTo(activeCircle, newX, newY);
-
-            });
-        }
-
-        function moveCircleTo(circle, newX, newY) {
-            const duration = 500; // Adjust the animation duration as needed
-
-            const initialX = circle.getBoundingClientRect().left;
-            const initialY = circle.getBoundingClientRect().top;
-            const startTime = performance.now();
-
-            function animate(time) {
-                let progress = (time - startTime) / duration;
-                if (progress > 1) progress = 1;
-
-                const easeProgress = easeOutQuart(progress);
-                const currentX = initialX + (newX - initialX) * easeProgress;
-                const currentY = initialY + (newY - initialY) * easeProgress;
-
-                circle.style.left = currentX + 'px';
-                circle.style.top = currentY + 'px';
-
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    // Animation complete
-                    //activeCircle = null;
-                    MoveOrNot = false;
-                    OpenReminder()
-                    
-                }
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        // Easing function for smoother animation
-        function easeOutQuart(t) {
-            return 1 - (--t) * t * t * t;
-        }
-
-        function showConfirmationDialog() {
-            /*const confirmation = window.confirm("Have you finished your move?");
-            if (confirmation) {
-                canMove++;
-            }
-
-            if (canMove >= numPlayers) {
-                canMove = 0;
-            }
-            */
-            canMove++;
-            // Reset the activeCircle to the current player's circle
-            activeCircle = document.getElementById('circle' + canMove);
-
-            for (let i = 0; i < numPlayers; i++) {
-                const index = (i + canMove) % numPlayers;
-                const circleId = "circle" + index;
-                document.getElementById(circleId).style.zIndex = numPlayers - i;
-            }
-            updateReminder();
-        }
-
-        function rollDice() {
-            const diceElement = document.getElementById('dice');
-            diceElement.innerHTML = '';
-
-            let count = 0;
-
-            const symbols = ['&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;'];
-
-            const interval = setInterval(() => {
-                const randomValue = Math.floor(Math.random() * 6) + 1;
-
-                diceElement.innerHTML = symbols[randomValue - 1];
-
-                count++;
-
-                if (count === 80) {
-                    clearInterval(interval);
-                }
-            }, 25);
-        }
-    </script>
-</body>
-
-</html>

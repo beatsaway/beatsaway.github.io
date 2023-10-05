@@ -13,34 +13,30 @@
             font-size: 24px;
             font-family: 'Pirata One', cursive;
             overflow-x: hidden;
-            overflow: hidden; /* Hide vertical and horizontal scrollbars */
-            
+            overflow: hidden;
             color: white;
             display: flex;
-            /*justify-content: center; /* Center horizontally */
-            /*align-items: center; /* Center vertically */
-            
-            
-
-            /*background: url('https://i.pinimg.com/1200x/99/93/0d/99930d08a3210922ea9f0bbbb4188e73.jpg');
-            background-repeat: repeat; /* Repeat the background image */
-            /*background-attachment: fixed; /* Fix the background image in place */
             background-color: black;
         }
+
         button {
-            font-family: 'Pirata One', sans-serif; /* Apply 'Pirata One' font to the button */
-            font-size: 47px;
+            font-family: 'Pirata One', sans-serif;
+            font-size: 25px;
         }
+
         .circle {
             width: 52px;
             height: 52px;
             background-color: blue;
             border-radius: 10%;
             position: absolute;
+            left:-100px;
+            bottom: 50px;
             cursor: pointer;
             border: 4px solid black;
-            display:none;
+            display: none;
         }
+
         .characterCard {
             width: 102px;
             height: 102px;
@@ -48,65 +44,59 @@
             border-radius: 15%;
             cursor: pointer;
             border: 4px solid black;
-            display:none;
+            display: none;
         }
 
         #container {
-            /*text-align: center;*/
-
-            height: 1712px; /* Set a larger height */
-            width: 1284px; /* Set a larger width */
-
-
-            max-width: 98%; /* Ensure the width does not exceed the viewport width */
-            max-height: 98%; /* Ensure the height does not exceed the viewport height */
-            margin:0;
-            padding:0;
+            height: 1712px;
+            width: 1284px;
+            max-width: 98%;
+            max-height: 98%;
+            margin: 0;
+            padding: 0;
         }
 
         #board {
-
-            /*height: 1712px; /* Set a larger height */
-            /*width: 1284px;  /*Set a larger width */
-
-            height: auto; /* Set the height to 80% of the viewport height */
-            width: auto; /* Allow the width to adjust based on the aspect ratio */
-
-            max-width: 100%; /* Ensure the width does not exceed the viewport width */
-            max-height: 100vh;  /* Ensure the height does not exceed the viewport height */
-
+            height: auto;
+            width: auto;
+            max-width: 100%;
+            max-height: 100vh;
             border: 2px solid black;
             position: relative;
-            /*background-image: url('1piece.jpeg');  Replace 'your-image.jpg' with your image file path 
-            background-size: contain;
-            background-repeat: no-repeat;*/
-            border-radius: 20px; 
+            border-radius: 20px;
         }
-        #imgframe {
-            width: auto; height: auto; margin: 0; padding: 0;position: relative; user-select: none;
-        }
-        #board-image {
-            height:90vh; /* Maintain aspect ratio */
 
-            width: auto; /* Make the image take up 100% of the container width */
-            position: relative;  Overlay the image on top of the circles */
-            top: 0; /* Position the image at the top of the container */
-            left: 0; /* Position the image at the left of the container */
+        #imgframe {
+
+            display: inline-block;
+
+            margin: 0;
+            padding: 0;
+            position: relative;
+            /*user-select: none;*/
+        }
+
+        #board-image {
+            height: 90vh;
+            width: auto;
+            position: relative;
+            top: 0;
+            left: 0;
             z-index: 0;
         }
+
         #centered-content {
             position: absolute;
-            top: 30%;
-            left:0;
-            /*transform: translate(-50%, -50%);*/
-            z-index: 1; /* Ensure it's above the board */
+            top: 20%;
+            left: 0;
+            z-index: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
-            background-color: rgba(0, 0, 0, 0.7); /* Add background color or opacity for overlay effect */
-            padding: 20px; /* Adjust padding as needed */
-            border-radius: 10px; /* Add rounded corners if desired */
+            align-items: left;
+            text-align: left;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 20px;
         }
     </style>
 </head>
@@ -114,21 +104,20 @@
 <body>
 
     <div id="container">
-       
-        <div id="board" style="position: relative;">
-            <div id="imgframe"><img src="1piece.jpeg" alt="Game Board" id="board-image" draggable="false">
-            <div class="circle" id="circle7" ></div>
-            <div class="circle" id="circle6" ></div>
-            <div class="circle" id="circle5" ></div>
-            <div class="circle" id="circle4" ></div>
-            <div class="circle" id="circle3" ></div>
-            <div class="circle" id="circle2" ></div>
-            <div class="circle" id="circle1" ></div>
-            <div class="circle" id="circle0" ></div>
-            </div>
-            
-        </div>
 
+        <div id="board" style="position: relative;">
+            <div id="imgframe">
+                <img src="1piece.jpeg" alt="Game Board" id="board-image" draggable="false">
+                <div class="circle" id="circle7"></div>
+                <div class="circle" id="circle6"></div>
+                <div class="circle" id="circle5"></div>
+                <div class="circle" id="circle4"></div>
+                <div class="circle" id="circle3"></div>
+                <div class="circle" id="circle2"></div>
+                <div class="circle" id="circle1"></div>
+                <div class="circle" id="circle0"></div>
+            </div>
+        </div>
 
         <div id="centered-content">
             <span id="gameSetup">
@@ -139,201 +128,173 @@
 
             <span id="reminder" style="display:none;">
                 <span class="characterCard" id="WhoseTurn"></span>
-                <span>'s turn. </span><br />
-                <button onclick="rollDice()" >Roll the dice</button>
-                <span id="dice" style="font-size: 90px;margin:0;padding:0;"></span>
+                <span>'s turn. </span>
+                
+                <span id="dice" style="font-size: 190px;margin:0;padding:0;"></span><br />
+                <button onclick="rollDice()">Roll dice</button><br />
+                <button onclick="CloseReminder()">Click map to do move.</button><br />
+                <button onclick="showConfirmationDialog()">Click to finish turn.</button>
             </span>
 
             <span id="footmenu" style="position: relative;display:none;">
-                <span style="margin-left: 15px;" onclick="musicOnOff()" >&#128264;&#127925;&#x2193;&#x2193;&#x2193;</span><br/>
-                <iframe id="youtubePlayer" width="200" height="200" src="https://www.youtube.com/embed/V3r-YGGsKpk?si=EarTN_7fQhCm7a5w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; " allowfullscreen></iframe>
+                <span style="margin-left: 15px;" onclick="musicOnOff()">&#128264;&#127925;&#x2193;&#x2193;&#x2193;</span><br />
+                <iframe id="youtubePlayer" width="200" height="200"
+                    src="https://www.youtube.com/embed/V3r-YGGsKpk?si=EarTN_7fQhCm7a5w" title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; "
+                    allowfullscreen></iframe>
             </span>
         </div>
-        
+
     </div>
 
-
-
-
-
-
     <script>
-
-        // JavaScript code remains the same
         const circles = document.querySelectorAll('.circle');
         let activeCircle = null;
-        let offsetX, offsetY;
         let canMove = 0;
         let numPlayers = 4;
-        //document.getElementById('board').style.width = document.getElementById('board-image').width + 'px';
-        //document.getElementById('board').style.height = document.getElementById('board-image').height + 'px';
-        //start game, confirm number of players:
+
+        function OpenReminder(){
+            const reminder = document.getElementById('reminder');
+            reminder.style.display = 'inline-block';
+            document.getElementById('WhoseTurn').style.display = 'inline-block';
+        }
+        function CloseReminder(){
+            const reminder = document.getElementById('reminder');
+            reminder.style.display = 'none';
+        }
+
+
         function startGame() {
-            
-
             const gameSetup = document.getElementById('gameSetup');
-            gameSetup.style.display = 'none'; // Hide the game setup
+            gameSetup.style.display = 'none';
             numPlayers = parseInt(document.getElementById('numPlayers').value);
-            //assign pawn images to circles
+            const NoSame = [];
 
-            const NoSame = []; //array for checking random number is not repeated.
             for (let i = 0; i < numPlayers; i++) {
                 const circle = document.getElementById('circle' + i);
-
                 let randomImageIndex;
 
-                // Generate a unique random image index
                 do {
                     randomImageIndex = Math.floor(Math.random() * 24); // Change 24 to the total number of images
                 } while (NoSame.includes(randomImageIndex));
 
-                // Add the used image index to the array
                 NoSame.push(randomImageIndex);
-
                 circle.style.backgroundImage = `url('./Characters/circle${randomImageIndex}.jpg')`;
                 circle.style.backgroundSize = 'cover';
                 circle.style.display = 'block';
-
             }
 
-            // Set the reminder display to inline-block
-            const reminder = document.getElementById('reminder');
-            reminder.style.display = 'inline-block';
-            document.getElementById('WhoseTurn').style.display = 'inline-block';
+            OpenReminder();
+
+            // Set the activeCircle to the first player's circle
+            activeCircle = document.getElementById('circle0');
             updateReminder();
         }
+        //check if any circles are moving
+        let MoveOrNot = false;
 
-        circles.forEach(circle => {
+        function updateReminder() {
+            const whoseTurnDiv = document.getElementById('WhoseTurn');
+            const circleId = "circle" + String(canMove);
+            const circleElement = document.getElementById(circleId);
+            const circleStyle = window.getComputedStyle(circleElement);
+            whoseTurnDiv.style.backgroundImage = circleStyle.getPropertyValue('background-image');
+            whoseTurnDiv.style.backgroundSize = 'cover';
 
-            circle.style.left = "5px";
-            circle.style.bottom = "10px";
-            circle.addEventListener('mousedown', (e) => {
-                if (circle.id == "circle" + String(canMove)) {
-                    activeCircle = circle;
-                    offsetX = e.clientX - circle.getBoundingClientRect().left;
-                    offsetY = e.clientY - circle.getBoundingClientRect().top;
+            // Enable click/tap behavior on the board-image
+            const boardImage = document.getElementById('board-image');
+            boardImage.addEventListener('click', (e) => {
+                if (activeCircle === null) return;
 
-                }
+                const containerRect = document.getElementById('board').getBoundingClientRect();
+                const newX = e.clientX - containerRect.left - activeCircle.offsetWidth / 2;
+                const newY = e.clientY - containerRect.top - activeCircle.offsetHeight / 2;
+                MoveOrNot = true; 
+                moveCircleTo(activeCircle, newX, newY);
+
             });
+        }
 
-            circle.addEventListener('mouseup', () => {
-                if (circle.id == "circle" + String(canMove)) {
-                    activeCircle = null;
-                    showConfirmationDialog();
+        function moveCircleTo(circle, newX, newY) {
+            const duration = 500; // Adjust the animation duration as needed
+
+            const initialX = circle.getBoundingClientRect().left;
+            const initialY = circle.getBoundingClientRect().top;
+            const startTime = performance.now();
+
+            function animate(time) {
+                let progress = (time - startTime) / duration;
+                if (progress > 1) progress = 1;
+
+                const easeProgress = easeOutQuart(progress);
+                const currentX = initialX + (newX - initialX) * easeProgress;
+                const currentY = initialY + (newY - initialY) * easeProgress;
+
+                circle.style.left = currentX + 'px';
+                circle.style.top = currentY + 'px';
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    // Animation complete
+                    //activeCircle = null;
+                    MoveOrNot = false;
+                    OpenReminder()
+                    
                 }
-            });
-            //then for touch device
-            // Add touch event listeners for touch devices
-            circle.addEventListener('touchstart', (e) => {
-                if (circle.id == "circle" + String(canMove)) {
-                    activeCircle = circle;
-                    const touch = e.touches[0];
-                    offsetX = touch.clientX - circle.getBoundingClientRect().left;
-                    offsetY = touch.clientY - circle.getBoundingClientRect().top;
-                }
-            });
-
-            circle.addEventListener('touchend', () => {
-                if (circle.id == "circle" + String(canMove)) {
-                    activeCircle = null;
-                    showConfirmationDialog();
-                }
-            });
-
-            circle.addEventListener('touchmove', (e) => {
-                if (activeCircle) {
-                    const touch = e.touches[0];
-                    const newX = touch.clientX - offsetX;
-                    const newY = touch.clientY - offsetY;
-                    activeCircle.style.left = newX + 'px';
-                    activeCircle.style.top = newY + 'px';
-                }
-            });
-            //end touch devices listenr 
-        });
-
-        document.getElementById('board').addEventListener('mousemove', (e) => {
-            if (!activeCircle) return;
-            const containerRect = document.getElementById('board').getBoundingClientRect();
-            const newX = e.clientX - containerRect.left - offsetX;
-            const newY = e.clientY - containerRect.top - offsetY;
-
-            if (newX >= 0 && newY >= 0 && newX <= containerRect.width - 50 && newY <= containerRect.height - 50) {
-                activeCircle.style.left = newX + 'px';
-                activeCircle.style.top = newY + 'px';
             }
-        });
 
-        // Add a touch event listener to the board for touch devices
-        document.getElementById('board').addEventListener('touchmove', (e) => {
-            if (!activeCircle) return;
-            const touch = e.touches[0];
-            const containerRect = document.getElementById('board').getBoundingClientRect();
-            const newX = touch.clientX - containerRect.left - offsetX;
-            const newY = touch.clientY - containerRect.top - offsetY;
+            requestAnimationFrame(animate);
+        }
 
-            if (newX >= 0 && newY >= 0 && newX <= containerRect.width - 50 && newY <= containerRect.height - 50) {
-                activeCircle.style.left = newX + 'px';
-                activeCircle.style.top = newY + 'px';
-            }
-        });
+        // Easing function for smoother animation
+        function easeOutQuart(t) {
+            return 1 - (--t) * t * t * t;
+        }
 
         function showConfirmationDialog() {
-            const confirmation = window.confirm("Have you finished your move?");
+            /*const confirmation = window.confirm("Have you finished your move?");
             if (confirmation) {
                 canMove++;
             }
+
             if (canMove >= numPlayers) {
                 canMove = 0;
             }
-            // Assuming numPlayer is the total number of players
+            */
+            canMove++;
+            // Reset the activeCircle to the current player's circle
+            activeCircle = document.getElementById('circle' + canMove);
+
             for (let i = 0; i < numPlayers; i++) {
                 const index = (i + canMove) % numPlayers;
                 const circleId = "circle" + index;
                 document.getElementById(circleId).style.zIndex = numPlayers - i;
-
             }
             updateReminder();
         }
 
-        function updateReminder() {
-
-            const whoseTurnDiv = document.getElementById('WhoseTurn');
-
-            const circleId = "circle" + String(canMove); //get the active circle
-            const circleElement = document.getElementById(circleId); // Get the computed style of the circle element
-            const circleStyle = window.getComputedStyle(circleElement); // Get the background image URL from the computed style
-
-            whoseTurnDiv.style.backgroundImage = circleStyle.getPropertyValue('background-image');
-            whoseTurnDiv.style.backgroundSize = 'cover';
-
-        }
-
-        //dice rolling functionfunction 
         function rollDice() {
             const diceElement = document.getElementById('dice');
-            diceElement.innerHTML = ''; // Clear any previous content
+            diceElement.innerHTML = '';
 
             let count = 0;
 
-            const symbols = ['&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;']; // Dice symbols for values 1 to 6
+            const symbols = ['&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;'];
 
             const interval = setInterval(() => {
-                // Generate a random number between 1 and 6
-                const randomValue = Math.floor(Math.random() * 6) + 1; // Generates 1 to 6
+                const randomValue = Math.floor(Math.random() * 6) + 1;
 
-                // Display the corresponding dice symbol in the dice element
                 diceElement.innerHTML = symbols[randomValue - 1];
 
                 count++;
 
                 if (count === 80) {
-                    clearInterval(interval); // Stop the interval after 10 updates
+                    clearInterval(interval);
                 }
-            }, 25); 
+            }, 25);
         }
-            
-
     </script>
 </body>
 

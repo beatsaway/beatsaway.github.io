@@ -8,16 +8,16 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <style>
         body {
-            margin: 0;
+            margin: 5;
             padding: 0;
-            font-size: 22pt;
+            font-size: 24px;
             font-family: 'Pirata One', cursive;
             overflow-x: hidden;
             
             color: white;
             display: flex;
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
+            /*justify-content: center; /* Center horizontally */
+            /*align-items: center; /* Center vertically */
             
             
 
@@ -28,21 +28,25 @@
         }
         button {
             font-family: 'Pirata One', sans-serif; /* Apply 'Pirata One' font to the button */
-            font-size: 44pt;
+            font-size: 27px;
         }
         .circle {
-            width: 100px;
-            height: 100px;
-
-            max-width: 7%;
-            max-height: 7%;
-            
-
+            width: 42px;
+            height: 42px;
             background-color: blue;
             border-radius: 15%;
-            position:absolute;
+            position: absolute;
             cursor: pointer;
-            border: 5px solid black;
+            border: 4px solid black;
+            display:none;
+        }
+        .characterCard {
+            width: 52px;
+            height: 52px;
+            background-color: blue;
+            border-radius: 15%;
+            cursor: pointer;
+            border: 4px solid black;
             display:none;
         }
 
@@ -51,106 +55,129 @@
 
             height: 1712px; /* Set a larger height */
             width: 1284px; /* Set a larger width */
-            touch-action: none;
 
-            max-width: 95%; /* Ensure the width does not exceed the viewport width */
-            max-height: 95%; /* Ensure the height does not exceed the viewport height */
-            margin:1px;
-            padding:0;
-        }
-        #headmenu{
-            height:3%;
+
+            max-width: 98%; /* Ensure the width does not exceed the viewport width */
+            max-height: 98%; /* Ensure the height does not exceed the viewport height */
             margin:0;
             padding:0;
         }
+
         #board {
 
-    opacity: 0.8; /* Set opacity to 80% */
-            height: 1712px; /* Set a larger height */
-            width: 1284px; /* Set a larger width */
+            /*height: 1712px; /* Set a larger height */
+            /*width: 1284px;  /*Set a larger width */
 
+            height: auto; /* Set the height to 80% of the viewport height */
+            width: auto; /* Allow the width to adjust based on the aspect ratio */
 
-            max-width: 100vh; /* Ensure the width does not exceed the viewport width */
-            max-height: auto;  /* Ensure the height does not exceed the viewport height */
+            max-width: 100%; /* Ensure the width does not exceed the viewport width */
+            max-height: 100vh;  /* Ensure the height does not exceed the viewport height */
 
             border: 2px solid black;
             position: relative;
-            background-image: url('1piece.jpeg'); /* Replace 'your-image.jpg' with your image file path */
+            /*background-image: url('1piece.jpeg');  Replace 'your-image.jpg' with your image file path 
             background-size: contain;
-            background-repeat: no-repeat;
+            background-repeat: no-repeat;*/
             border-radius: 20px; 
         }
+        #imgframe {
+            width: auto; height: auto; margin: 0; padding: 0;position: relative; user-select: none;
+        }
         #board-image {
-            width: 100%; /* Make the image take up 100% of the container width */
-            height: auto; /* Maintain aspect ratio */
-            position: absolute; /* Overlay the image on top of the circles */
+            height:90vh; /* Maintain aspect ratio */
+
+            width: auto; /* Make the image take up 100% of the container width */
+            position: relative;  Overlay the image on top of the circles */
             top: 0; /* Position the image at the top of the container */
             left: 0; /* Position the image at the left of the container */
             z-index: 0;
-            opacity: 0.8; /* Set opacity to 80% */
         }
-        
+        #centered-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1; /* Ensure it's above the board */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Add background color or opacity for overlay effect */
+            padding: 20px; /* Adjust padding as needed */
+            border-radius: 10px; /* Add rounded corners if desired */
+        }
     </style>
 </head>
 
 <body>
 
     <div id="container">
-        <div id="headmenu">
-            <span id="gameSetup" style="position: relative;">
+       
+        <div id="board" style="position: relative;">
+            <div id="imgframe"><img src="1piece.jpeg" alt="Game Board" id="board-image">
+            <div class="circle" id="circle7" ></div>
+            <div class="circle" id="circle6" ></div>
+            <div class="circle" id="circle5" ></div>
+            <div class="circle" id="circle4" ></div>
+            <div class="circle" id="circle3" ></div>
+            <div class="circle" id="circle2" ></div>
+            <div class="circle" id="circle1" ></div>
+            <div class="circle" id="circle0" ></div>
+            </div>
+            
+        </div>
+
+
+        <div id="centered-content">
+            <span id="gameSetup">
                 <label for="numPlayers" style="font-size: 24px;">Number of Players:</label>
-                <input type="number" id="numPlayers" min="2" max="8" value="4" style="font-size: 44px;">
+                <input type="number" id="numPlayers" min="2" max="8" value="4" style="font-size: 24px;">
                 <button onclick="startGame()">Start Game</button>
             </span>
-            <span id="reminder" style="display:none;">
-                <span class="circle" id="WhoseTurn"></span>
-                
-                <span style="margin-left: 80px;">&#8592; Your turn now!</span>
-                <button style="margin-left: 25px;" onclick="rollDice()" >Roll the dice</button>
-                <span id="dice" style="font-size: 40px;margin:0;padding:0;"></span>
-             </span>
-        </div><br />
-        <div id="board" style="position: relative;">
-            <img src="1piece.jpeg" alt="Game Board" id="board-image">
-            <div class="circle" id="circle7" style="left: 0%; bottom: 0%;"></div>
-            <div class="circle" id="circle6" style="left: 0%; bottom: 0%;"></div>
-            <div class="circle" id="circle5" style="left: 0%; bottom: 0%;"></div>
-            <div class="circle" id="circle4" style="left: 0%; bottom: 0%;"></div>
-            <div class="circle" id="circle3" style="left: 0%; bottom: 0%;"></div>
-            <div class="circle" id="circle2" style="left: 0%; bottom: 0%;"></div>
-            <div class="circle" id="circle1" style="left: 0%; bottom: 0%;"></div>
-            <div class="circle" id="circle0" style="left: 0%; bottom: 0%;"></div>
-        </div>
-        <div>
 
-                <span style="margin-left: 25px;" onclick="musicOnOff()" >Play Background Music &#128264;&#127925;&#x2193;&#x2193;&#x2193;</span><br/>
-        <iframe id="youtubePlayer" width="200" height="200" src="https://www.youtube.com/embed/V3r-YGGsKpk?si=EarTN_7fQhCm7a5w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+            <span id="reminder" style="display:none;">
+                <span class="characterCard" id="WhoseTurn"></span>
+                <span>'s turn. </span><br />
+                <button onclick="rollDice()" >Roll the dice</button>
+                <span id="dice" style="font-size: 70px;margin:0;padding:0;"></span>
+            </span>
+
+            <span id="footmenu" style="position: relative;display:none;">
+                <span style="margin-left: 15px;" onclick="musicOnOff()" >&#128264;&#127925;&#x2193;&#x2193;&#x2193;</span><br/>
+                <iframe id="youtubePlayer" width="200" height="200" src="https://www.youtube.com/embed/V3r-YGGsKpk?si=EarTN_7fQhCm7a5w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </span>
+        </div>
+        
     </div>
 
 
+
+
+
+
     <script>
+
         // JavaScript code remains the same
         const circles = document.querySelectorAll('.circle');
         let activeCircle = null;
         let offsetX, offsetY;
         let canMove = 0;
         let numPlayers = 4;
-
-     
-        
+        //document.getElementById('board').style.width = document.getElementById('board-image').width + 'px';
+        //document.getElementById('board').style.height = document.getElementById('board-image').height + 'px';
         //start game, confirm number of players:
         function startGame() {
+            
+
             const gameSetup = document.getElementById('gameSetup');
             gameSetup.style.display = 'none'; // Hide the game setup
             numPlayers = parseInt(document.getElementById('numPlayers').value);
-            //assign character images to circles
+            //assign pawn images to circles
 
             const NoSame = []; //array for checking random number is not repeated.
             for (let i = 0; i < numPlayers; i++) {
                 const circle = document.getElementById('circle' + i);
-                circle.style.left = 0;
-                circle.style.bottom = 0;
-
 
                 let randomImageIndex;
 
@@ -165,6 +192,7 @@
                 circle.style.backgroundImage = `url('./Characters/circle${randomImageIndex}.jpg')`;
                 circle.style.backgroundSize = 'cover';
                 circle.style.display = 'block';
+
             }
 
             // Set the reminder display to inline-block
@@ -175,6 +203,9 @@
         }
 
         circles.forEach(circle => {
+
+            circle.style.left = "5px";
+            circle.style.bottom = "10px";
             circle.addEventListener('mousedown', (e) => {
                 if (circle.id == "circle" + String(canMove)) {
                     activeCircle = circle;
@@ -271,8 +302,7 @@
             const circleId = "circle" + String(canMove); //get the active circle
             const circleElement = document.getElementById(circleId); // Get the computed style of the circle element
             const circleStyle = window.getComputedStyle(circleElement); // Get the background image URL from the computed style
-            whoseTurnDiv.style.height= "whoseTurnDiv.style.height/2";
-            whoseTurnDiv.style.width ="whoseTurnDiv.style.width/2";
+
             whoseTurnDiv.style.backgroundImage = circleStyle.getPropertyValue('background-image');
             whoseTurnDiv.style.backgroundSize = 'cover';
 
@@ -292,7 +322,7 @@
                 const randomValue = Math.floor(Math.random() * 6) + 1; // Generates 1 to 6
 
                 // Display the corresponding dice symbol in the dice element
-                diceElement.innerHTML = symbols[randomValue - 1]+ ' ' + (randomValue - 1);
+                diceElement.innerHTML = symbols[randomValue - 1];
 
                 count++;
 

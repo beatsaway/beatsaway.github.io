@@ -25,21 +25,22 @@
         }
 
         .circle {
-            width: 52pt;
-            height: 52pt;
+            width: 48pt;
+            height: 48pt;
             background-color: blue;
             border-radius: 10%;
             position: absolute;
             left:-100px;
             bottom: 50px;
-            cursor: pointer;
             border: 4px solid black;
             display: none;
+
+            pointer-events: none; /*allow characters overlap*/
         }
 
         .characterCard {
-            width: 180pt;
-            height: 180pt;
+            width: 160pt;
+            height: 160pt;
             background-color: blue;
             border-radius: 15%;
             cursor: pointer;
@@ -77,8 +78,9 @@
         }
 
         #board-image {
-            width: 67.5vh;
+
             height:90vh;
+            width: auto;
             position: relative;
             top: 0;
             left: 0;
@@ -95,7 +97,7 @@
             flex-direction: column;
             align-items: left;
             text-align: left;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.4);
             padding: 20px;
             border-radius: 20px;
         }
@@ -122,8 +124,17 @@
 
         <div id="centered-content">
             <span id="gameSetup"><center>
-                <label for="numPlayers">Number of Players:</label>  <br />
-                <input type="number" id="numPlayers" min="2" max="8" value="4" style="font-size: 90pt;"><br />
+                
+                <label for="numPlayers">Number of players</label><br />
+                <select id="numPlayers" style="font-size: 50pt;">
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4" selected>4</option> <!-- "selected" attribute sets the default value -->
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select><br /><br />
                 <button onclick="startGame()">Start Game</button></center>
             </span>
 
@@ -202,9 +213,12 @@
             const circleStyle = window.getComputedStyle(circleElement);
             whoseTurnDiv.style.backgroundImage = circleStyle.getPropertyValue('background-image');
             whoseTurnDiv.style.backgroundSize = 'cover';
+            document.getElementById('dice').innerHTML='';
 
             // Enable click/tap behavior on the board-image
             const boardImage = document.getElementById('board-image');
+
+            // trigger animation when click on map
             boardImage.addEventListener('click', (e) => {
                 if (activeCircle === null) return;
 
@@ -255,10 +269,7 @@
         }
 
         function EndTurn() {
-            /*const confirmation = window.confirm("Have you finished your move?");
-            if (confirmation) {
-                canMove++;
-            }*/
+ 
             canMove++;
             if (canMove >= numPlayers) {
                 canMove = 0;
@@ -272,7 +283,9 @@
                 const index = (i + canMove) % numPlayers;
                 const circleId = "circle" + index;
                 document.getElementById(circleId).style.zIndex = numPlayers - i;
+                document.getElementById('centered-content').style.zIndex = 12;
             }
+
             updateReminder();
         }
 

@@ -21,7 +21,7 @@
 
         button {
             font-family: 'Pirata One', sans-serif;
-            font-size: 40pt; /* Adjusted font size using viewport width units */
+            font-size: 60pt; /* Adjusted font size using viewport width units */
         }
 
         .circle {
@@ -121,10 +121,10 @@
         </div>
 
         <div id="centered-content">
-            <span id="gameSetup">
-                <label for="numPlayers" style="font-size: 24px;">Number of Players:</label>
-                <input type="number" id="numPlayers" min="2" max="8" value="4" style="font-size: 24px;">
-                <button onclick="startGame()">Start Game</button>
+            <span id="gameSetup"><center>
+                <label for="numPlayers">Number of Players:</label>  <br />
+                <input type="number" id="numPlayers" min="2" max="8" value="4" style="font-size: 90pt;"><br />
+                <button onclick="startGame()">Start Game</button></center>
             </span>
 
             <span id="reminder" style="display:none;">
@@ -133,7 +133,7 @@
                 
                 <span id="dice" style="font-size: 190px;margin:0;padding:0;"></span><br />
                 <button onclick="rollDice()">Roll dice</button><br />
-                <button onclick="CloseReminder()">Click on map to move.</button><br />
+                <button onclick="CloseReminder()">Click map to do move.</button><br />
                 <button onclick="showConfirmationDialog()">Click to finish turn.</button>
             </span>
 

@@ -151,6 +151,34 @@
                     showConfirmationDialog();
                 }
             });
+            //then for touch device
+            // Add touch event listeners for touch devices
+            circle.addEventListener('touchstart', (e) => {
+                if (circle.id == "circle" + String(canMove)) {
+                    activeCircle = circle;
+                    const touch = e.touches[0];
+                    offsetX = touch.clientX - circle.getBoundingClientRect().left;
+                    offsetY = touch.clientY - circle.getBoundingClientRect().top;
+                }
+            });
+
+            circle.addEventListener('touchend', () => {
+                if (circle.id == "circle" + String(canMove)) {
+                    activeCircle = null;
+                    showConfirmationDialog();
+                }
+            });
+
+            circle.addEventListener('touchmove', (e) => {
+                if (activeCircle) {
+                    const touch = e.touches[0];
+                    const newX = touch.clientX - offsetX;
+                    const newY = touch.clientY - offsetY;
+                    activeCircle.style.left = newX + 'px';
+                    activeCircle.style.top = newY + 'px';
+                }
+            });
+            //end touch devices listenr 
         });
 
         document.getElementById('board').addEventListener('mousemove', (e) => {
@@ -158,6 +186,20 @@
             const containerRect = document.getElementById('board').getBoundingClientRect();
             const newX = e.clientX - containerRect.left - offsetX;
             const newY = e.clientY - containerRect.top - offsetY;
+
+            if (newX >= 0 && newY >= 0 && newX <= containerRect.width - 50 && newY <= containerRect.height - 50) {
+                activeCircle.style.left = newX + 'px';
+                activeCircle.style.top = newY + 'px';
+            }
+        });
+
+        // Add a touch event listener to the board for touch devices
+        document.getElementById('board').addEventListener('touchmove', (e) => {
+            if (!activeCircle) return;
+            const touch = e.touches[0];
+            const containerRect = document.getElementById('board').getBoundingClientRect();
+            const newX = touch.clientX - containerRect.left - offsetX;
+            const newY = touch.clientY - containerRect.top - offsetY;
 
             if (newX >= 0 && newY >= 0 && newX <= containerRect.width - 50 && newY <= containerRect.height - 50) {
                 activeCircle.style.left = newX + 'px';

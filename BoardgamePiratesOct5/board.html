@@ -89,7 +89,7 @@
             position: absolute;
 
             top: 20%;
-            left: 0;
+            left: 10pt;
             z-index: 1;
             display: flex;
             flex-direction: column;
@@ -128,13 +128,13 @@
             </span>
 
             <span id="reminder" style="display:none;">
-                <span class="characterCard" id="WhoseTurn"></span> 
+                <span class="characterCard" id="WhoseTurn"></span>
                 <span>'s turn. </span>
                 
                 <span id="dice" style="font-size: 190px;margin:0;padding:0;"></span><br />
                 <button onclick="rollDice()">Roll dice</button><br />
                 <button onclick="CloseReminder()">Click on map to move.</button><br />
-                <button onclick="showConfirmationDialog()">Click to finish turn.</button>
+                <button onclick="EndTurn()">Click to end turn.</button>
             </span>
 
             <span id="footmenu" style="position: relative;display:none;">
@@ -254,17 +254,17 @@
             return 1 - (--t) * t * t * t;
         }
 
-        function showConfirmationDialog() {
+        function EndTurn() {
             /*const confirmation = window.confirm("Have you finished your move?");
             if (confirmation) {
                 canMove++;
-            }
-
+            }*/
+            canMove++;
             if (canMove >= numPlayers) {
                 canMove = 0;
             }
-            */
-            canMove++;
+            
+            
             // Reset the activeCircle to the current player's circle
             activeCircle = document.getElementById('circle' + canMove);
 

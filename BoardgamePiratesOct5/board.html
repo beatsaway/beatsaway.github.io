@@ -29,7 +29,7 @@
         }
         button {
             font-family: 'Pirata One', sans-serif; /* Apply 'Pirata One' font to the button */
-            font-size: 27px;
+            font-size: 47px;
         }
         .circle {
             width: 52px;
@@ -42,8 +42,8 @@
             display:none;
         }
         .characterCard {
-            width: 52px;
-            height: 52px;
+            width: 102px;
+            height: 102px;
             background-color: blue;
             border-radius: 15%;
             cursor: pointer;
@@ -52,7 +52,7 @@
         }
 
         #container {
-            text-align: center;
+            /*text-align: center;*/
 
             height: 1712px; /* Set a larger height */
             width: 1284px; /* Set a larger width */
@@ -96,9 +96,9 @@
         }
         #centered-content {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 30%;
+            left:0;
+            /*transform: translate(-50%, -50%);*/
             z-index: 1; /* Ensure it's above the board */
             display: flex;
             flex-direction: column;
@@ -141,7 +141,7 @@
                 <span class="characterCard" id="WhoseTurn"></span>
                 <span>'s turn. </span><br />
                 <button onclick="rollDice()" >Roll the dice</button>
-                <span id="dice" style="font-size: 70px;margin:0;padding:0;"></span>
+                <span id="dice" style="font-size: 90px;margin:0;padding:0;"></span>
             </span>
 
             <span id="footmenu" style="position: relative;display:none;">

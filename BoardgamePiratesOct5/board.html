@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+        body {
+            margin: 5;
+            padding: 0;
+            font-size: 24px;
+            font-family: 'Pirata One', cursive;
+            
+            color: white;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            /*align-items: center; /* Center vertically */
+            height: 100vh; /* Use the full viewport height */
+            
+            background: url('https://i.pinimg.com/1200x/99/93/0d/99930d08a3210922ea9f0bbbb4188e73.jpg');
+            background-repeat: repeat; /* Repeat the background image */
+            background-attachment: fixed; /* Fix the background image in place */
+            background-color: black;
+        }
+        button {
+            font-family: 'Pirata One', sans-serif; /* Apply 'Pirata One' font to the button */
+            font-size: 27px;
+        }
+        .circle {
+            width: 44px;
+            height: 44px;
+            background-color: blue;
+            border-radius: 15%;
+            position: absolute;
+            cursor: pointer;
+            border: 3px solid black;
+            display:none;
+        }
+
+        #container {
+            text-align: center;
+        }
+
+        #board {
+            height: 800px; /* Set a larger height */
+            width: 600px; /* Set a larger width */
+
+
+            max-width: 100%; /* Ensure the width does not exceed the viewport width */
+            max-height: 100%; /* Ensure the height does not exceed the viewport height */
+            border: 2px solid black;
+            position: relative;
+            background-image: url('1piece.jpeg'); /* Replace 'your-image.jpg' with your image file path */
+            background-size: contain;
+            background-repeat: no-repeat;
+            border-radius: 20px; 
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container">
+        
+            <span id="gameSetup">
+                <label for="numPlayers" style="font-size: 24px;">Number of Players:</label>
+                <input type="number" id="numPlayers" min="2" max="8" value="4" style="font-size: 24px;">
+                <button onclick="startGame()">Start Game</button>
+            </span>
+            <span id="reminder" style="display:none;">
+                <span class="circle" id="WhoseTurn"></span>
+                
+                <span style="margin-left: 55px;">'s turn now!</span>
+                <button style="margin-left: 25px;" onclick="rollDice()" >Roll the dice</button>
+                <span id="dice" style="font-size: 40px;margin:0;padding:0;"></span>
+             </span><br />
+        <div id="board" style="position: relative;">
+            <div class="circle" id="circle7" style="left: 0%; bottom: 0%;"></div>
+            <div class="circle" id="circle6" style="left: 0%; bottom: 0%;"></div>
+            <div class="circle" id="circle5" style="left: 0%; bottom: 0%;"></div>
+            <div class="circle" id="circle4" style="left: 0%; bottom: 0%;"></div>
+            <div class="circle" id="circle3" style="left: 0%; bottom: 0%;"></div>
+            <div class="circle" id="circle2" style="left: 0%; bottom: 0%;"></div>
+            <div class="circle" id="circle1" style="left: 0%; bottom: 0%;"></div>
+            <div class="circle" id="circle0" style="left: 0%; bottom: 0%;"></div>
+        </div>
+        <div>
+
+                <span style="margin-left: 25px;" onclick="musicOnOff()" >&#128264;&#127925;&#x2193;&#x2193;&#x2193;</span><br/>
+        <iframe id="youtubePlayer" width="200" height="200" src="https://www.youtube.com/embed/V3r-YGGsKpk?si=EarTN_7fQhCm7a5w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+    </div>
+
+
+    <script>
+        // JavaScript code remains the same
+        const circles = document.querySelectorAll('.circle');
+        let activeCircle = null;
+        let offsetX, offsetY;
+        let canMove = 0;
+        let numPlayers = 4;
+
+        //start game, confirm number of players:
+        function startGame() {
+            const gameSetup = document.getElementById('gameSetup');
+            gameSetup.style.display = 'none'; // Hide the game setup
+            numPlayers = parseInt(document.getElementById('numPlayers').value);
+            //assign pawn images to circles
+
+            const NoSame = []; //array for checking random number is not repeated.
+            for (let i = 0; i < numPlayers; i++) {
+                const circle = document.getElementById('circle' + i);
+
+                let randomImageIndex;
+
+                // Generate a unique random image index
+                do {
+                    randomImageIndex = Math.floor(Math.random() * 24); // Change 24 to the total number of images
+                } while (NoSame.includes(randomImageIndex));
+
+                // Add the used image index to the array
+                NoSame.push(randomImageIndex);
+
+                circle.style.backgroundImage = `url('./Characters/circle${randomImageIndex}.jpg')`;
+                circle.style.backgroundSize = 'cover';
+                circle.style.display = 'block';
+            }
+
+            // Set the reminder display to inline-block
+            const reminder = document.getElementById('reminder');
+            reminder.style.display = 'inline-block';
+            document.getElementById('WhoseTurn').style.display = 'inline-block';
+            updateReminder();
+        }
+
+        circles.forEach(circle => {
+            circle.addEventListener('mousedown', (e) => {
+                if (circle.id == "circle" + String(canMove)) {
+                    activeCircle = circle;
+                    offsetX = e.clientX - circle.getBoundingClientRect().left;
+                    offsetY = e.clientY - circle.getBoundingClientRect().top;
+                    // Set z-index for all circles
+
+                }
+            });
+
+            circle.addEventListener('mouseup', () => {
+                if (circle.id == "circle" + String(canMove)) {
+                    activeCircle = null;
+                    showConfirmationDialog();
+                }
+            });
+        });
+
+        document.getElementById('board').addEventListener('mousemove', (e) => {
+            if (!activeCircle) return;
+            const containerRect = document.getElementById('board').getBoundingClientRect();
+            const newX = e.clientX - containerRect.left - offsetX;
+            const newY = e.clientY - containerRect.top - offsetY;
+
+            if (newX >= 0 && newY >= 0 && newX <= containerRect.width - 50 && newY <= containerRect.height - 50) {
+                activeCircle.style.left = newX + 'px';
+                activeCircle.style.top = newY + 'px';
+            }
+        });
+
+        function showConfirmationDialog() {
+            const confirmation = window.confirm("Have you finished your move?");
+            if (confirmation) {
+                canMove++;
+            }
+            if (canMove >= numPlayers) {
+                canMove = 0;
+            }
+            // Assuming numPlayer is the total number of players
+            for (let i = 0; i < numPlayers; i++) {
+                const index = (i + canMove) % numPlayers;
+                const circleId = "circle" + index;
+                document.getElementById(circleId).style.zIndex = numPlayers - i;
+
+            }
+            updateReminder();
+        }
+
+        function updateReminder() {
+
+            const whoseTurnDiv = document.getElementById('WhoseTurn');
+
+            const circleId = "circle" + String(canMove); //get the active circle
+            const circleElement = document.getElementById(circleId); // Get the computed style of the circle element
+            const circleStyle = window.getComputedStyle(circleElement); // Get the background image URL from the computed style
+
+            whoseTurnDiv.style.backgroundImage = circleStyle.getPropertyValue('background-image');
+            whoseTurnDiv.style.backgroundSize = 'cover';
+
+        }
+
+        //dice rolling functionfunction 
+        function rollDice() {
+            const diceElement = document.getElementById('dice');
+            diceElement.innerHTML = ''; // Clear any previous content
+
+            let count = 0;
+
+            const symbols = ['&#9856;', '&#9857;', '&#9858;', '&#9859;', '&#9860;', '&#9861;']; // Dice symbols for values 1 to 6
+
+            const interval = setInterval(() => {
+                // Generate a random number between 1 and 6
+                const randomValue = Math.floor(Math.random() * 6) + 1; // Generates 1 to 6
+
+                // Display the corresponding dice symbol in the dice element
+                diceElement.innerHTML = symbols[randomValue - 1];
+
+                count++;
+
+                if (count === 80) {
+                    clearInterval(interval); // Stop the interval after 10 updates
+                }
+            }, 25); 
+        }
+            
+
+    </script>
+</body>
+
+</html>

@@ -61,7 +61,7 @@
 
 
             max-width: 100%; /* Ensure the width does not exceed the viewport width */
-            max-height: 100%; /* Ensure the height does not exceed the viewport height */
+            max-height: 100vh;  /* Ensure the height does not exceed the viewport height */
 
             border: 2px solid black;
             position: relative;
@@ -70,6 +70,15 @@
             background-repeat: no-repeat;
             border-radius: 20px; 
         }
+        #board-image {
+            width: 100%; /* Make the image take up 100% of the container width */
+            height: auto; /* Maintain aspect ratio */
+            position: absolute; /* Overlay the image on top of the circles */
+            top: 0; /* Position the image at the top of the container */
+            left: 0; /* Position the image at the left of the container */
+            z-index: 0;
+        }
+        
     </style>
 </head>
 
@@ -90,6 +99,7 @@
                 <span id="dice" style="font-size: 40px;margin:0;padding:0;"></span>
              </span><br />
         <div id="board" style="position: relative;">
+            <img src="1piece.jpeg" alt="Game Board" id="board-image">
             <div class="circle" id="circle7" style="left: 0%; bottom: 0%;"></div>
             <div class="circle" id="circle6" style="left: 0%; bottom: 0%;"></div>
             <div class="circle" id="circle5" style="left: 0%; bottom: 0%;"></div>
@@ -153,7 +163,6 @@
                     activeCircle = circle;
                     offsetX = e.clientX - circle.getBoundingClientRect().left;
                     offsetY = e.clientY - circle.getBoundingClientRect().top;
-                    // Set z-index for all circles
 
                 }
             });

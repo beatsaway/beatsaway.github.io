@@ -5,7 +5,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
-    <script src="https://www.youtube.com/iframe_api"></script>
+
     <style>
         body {
             margin: 5;
@@ -93,13 +93,15 @@
             top: 5%;
             left: 10pt;
             z-index: 1;
-            display: flex;
+            
             flex-direction: column;
             align-items: left;
             text-align: left;
             background-color: rgba(0, 0, 0, 0.4);
-            padding: 20px;
-            border-radius: 20px;
+            
+            border-radius: 25px;
+
+            display: flex;
         }
     </style>
 </head>
@@ -148,14 +150,14 @@
                 <button onclick="EndTurn()">Click to end turn.</button>
             </span>
 
-            <span id="footmenu" style="position: relative;display:none;">
+            <!--<span id="footmenu" style="position: relative;display:none;">
                 <span style="margin-left: 15px;" onclick="musicOnOff()">&#128264;&#127925;&#x2193;&#x2193;&#x2193;</span><br />
                 <iframe id="youtubePlayer" width="200" height="200"
                     src="https://www.youtube.com/embed/V3r-YGGsKpk?si=EarTN_7fQhCm7a5w" title="YouTube video player"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; "
                     allowfullscreen></iframe>
-            </span>
+            </span>-->
         </div>
 
     </div>
@@ -171,7 +173,9 @@
             
             reminder.style.display = 'inline-block';
 
+
             document.getElementById('WhoseTurn').style.display = 'inline-block';
+
 
             // Remove the boardImage click event listener if it exists
 
@@ -183,12 +187,15 @@
 
             reminder.style.display = 'none';
 
-            // Enable click/tap behavior on the board-image
-            const boardImage = document.getElementById('board-image');
+
 
             
 
         }
+
+
+        // Enable click/tap behavior on the board-image  
+        const boardImage = document.getElementById('board-image');
         // trigger animation when click on map
         boardImage.addEventListener('click', (e) => {
             if (activeCircle === null) return;

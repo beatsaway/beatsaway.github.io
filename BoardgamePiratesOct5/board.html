@@ -10,14 +10,14 @@
         body {
             margin: 0;
             padding: 0;
-            font-size: 24px;
+            font-size: 22pt;
             font-family: 'Pirata One', cursive;
             overflow-x: hidden;
             
             color: white;
             display: flex;
             justify-content: center; /* Center horizontally */
-            /*align-items: center; /* Center vertically */
+            align-items: center; /* Center vertically */
             
             
 
@@ -28,11 +28,16 @@
         }
         button {
             font-family: 'Pirata One', sans-serif; /* Apply 'Pirata One' font to the button */
-            font-size: 27px;
+            font-size: 24pt;
         }
         .circle {
-            width: 44px;
-            height: 44px;
+            width: 100px;
+            height: 100px;
+
+            max-width: 7%;
+            max-height: 7%;
+            
+
             background-color: blue;
             border-radius: 15%;
             position:absolute;
@@ -53,15 +58,20 @@
             margin:0;
             padding:0;
         }
-
+        #heading{
+            height:3%;
+            margin:0;
+            padding:0;
+        }
         #board {
 
+    opacity: 0.8; /* Set opacity to 80% */
             height: 1712px; /* Set a larger height */
             width: 1284px; /* Set a larger width */
 
 
-            max-width: 100%; /* Ensure the width does not exceed the viewport width */
-            max-height: 100vh;  /* Ensure the height does not exceed the viewport height */
+            max-width: 100vh; /* Ensure the width does not exceed the viewport width */
+            max-height: auto;  /* Ensure the height does not exceed the viewport height */
 
             border: 2px solid black;
             position: relative;
@@ -77,6 +87,7 @@
             top: 0; /* Position the image at the top of the container */
             left: 0; /* Position the image at the left of the container */
             z-index: 0;
+            opacity: 0.8; /* Set opacity to 80% */
         }
         
     </style>
@@ -85,8 +96,8 @@
 <body>
 
     <div id="container">
-        
-            <span id="gameSetup">
+        <div id="heading">
+            <span id="gameSetup" style="position: relative;">
                 <label for="numPlayers" style="font-size: 24px;">Number of Players:</label>
                 <input type="number" id="numPlayers" min="2" max="8" value="4" style="font-size: 24px;">
                 <button onclick="startGame()">Start Game</button>
@@ -94,10 +105,10 @@
             <span id="reminder" style="display:none;">
                 <span class="circle" id="WhoseTurn"></span>
                 
-                <span style="margin-left: 55px;">'s turn now!</span>
+                <span style="margin-left: 80px;">&#8592; Your turn now!</span>
                 <button style="margin-left: 25px;" onclick="rollDice()" >Roll the dice</button>
                 <span id="dice" style="font-size: 40px;margin:0;padding:0;"></span>
-             </span><br />
+             </span></div>
         <div id="board" style="position: relative;">
             <img src="1piece.jpeg" alt="Game Board" id="board-image">
             <div class="circle" id="circle7" style="left: 0%; bottom: 0%;"></div>
@@ -111,7 +122,7 @@
         </div>
         <div>
 
-                <span style="margin-left: 25px;" onclick="musicOnOff()" >&#128264;&#127925;&#x2193;&#x2193;&#x2193;</span><br/>
+                <span style="margin-left: 25px;" onclick="musicOnOff()" >Play Background Music &#128264;&#127925;&#x2193;&#x2193;&#x2193;</span><br/>
         <iframe id="youtubePlayer" width="200" height="200" src="https://www.youtube.com/embed/V3r-YGGsKpk?si=EarTN_7fQhCm7a5w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
     </div>
 
@@ -124,22 +135,22 @@
         let canMove = 0;
         let numPlayers = 4;
 
+     
+        
         //start game, confirm number of players:
         function startGame() {
             const gameSetup = document.getElementById('gameSetup');
             gameSetup.style.display = 'none'; // Hide the game setup
             numPlayers = parseInt(document.getElementById('numPlayers').value);
-            //assign pawn images to circles
+            //assign character images to circles
 
             const NoSame = []; //array for checking random number is not repeated.
             for (let i = 0; i < numPlayers; i++) {
                 const circle = document.getElementById('circle' + i);
-                //circle.style.left = document.getElementById('board-image').style.left;
-                //circle.style.bottom = document.getElementById('board-image').style.bottom;
                 circle.style.left = 0;
                 circle.style.bottom = 0;
 
-u
+
                 let randomImageIndex;
 
                 // Generate a unique random image index
@@ -259,7 +270,8 @@ u
             const circleId = "circle" + String(canMove); //get the active circle
             const circleElement = document.getElementById(circleId); // Get the computed style of the circle element
             const circleStyle = window.getComputedStyle(circleElement); // Get the background image URL from the computed style
-
+            whoseTurnDiv.style.height= "whoseTurnDiv.style.height/2";
+            whoseTurnDiv.style.width ="whoseTurnDiv.style.width/2";
             whoseTurnDiv.style.backgroundImage = circleStyle.getPropertyValue('background-image');
             whoseTurnDiv.style.backgroundSize = 'cover';
 
@@ -279,7 +291,7 @@ u
                 const randomValue = Math.floor(Math.random() * 6) + 1; // Generates 1 to 6
 
                 // Display the corresponding dice symbol in the dice element
-                diceElement.innerHTML = symbols[randomValue - 1];
+                diceElement.innerHTML = symbols[randomValue - 1]+ ' ' + (randomValue - 1);
 
                 count++;
 

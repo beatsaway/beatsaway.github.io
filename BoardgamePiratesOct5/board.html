@@ -168,13 +168,57 @@
 
         function OpenReminder(){
             const reminder = document.getElementById('reminder');
+            
             reminder.style.display = 'inline-block';
+
             document.getElementById('WhoseTurn').style.display = 'inline-block';
+
+            // Remove the boardImage click event listener if it exists
+
+
         }
+        
         function CloseReminder(){
             const reminder = document.getElementById('reminder');
+
             reminder.style.display = 'none';
+
+            // Enable click/tap behavior on the board-image
+            const boardImage = document.getElementById('board-image');
+
+            
+
         }
+        // trigger animation when click on map
+        boardImage.addEventListener('click', (e) => {
+            if (activeCircle === null) return;
+
+            const containerRect = document.getElementById('board').getBoundingClientRect();
+            const newX = e.clientX - containerRect.left - activeCircle.offsetWidth / 2;
+            const newY = e.clientY - containerRect.top - activeCircle.offsetHeight / 2;
+            MoveOrNot = true; 
+            moveCircleTo(activeCircle, newX, newY);
+
+        });
+        function unfade(element, duration) {
+            var op = 0.1;  // initial opacity
+            element.style.display = 'block';
+
+            var timer = setInterval(function () {
+                if (op >= 1){
+                    clearInterval(timer);
+                }
+                element.style.opacity = op;
+                element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                op += op * 0.1;
+            }, duration * 1000 / 10); // Convert duration to milliseconds and divide by 10 for the interval
+        }
+
+        // Call the function to fade in the 'reminder' element over 0.3 seconds
+        
+
+
+
 
 
         function startGame() {
@@ -207,6 +251,7 @@
         let MoveOrNot = false;
 
         function updateReminder() {
+            unfade(document.getElementById('reminder'), 0.3);
             const whoseTurnDiv = document.getElementById('WhoseTurn');
             const circleId = "circle" + String(canMove);
             const circleElement = document.getElementById(circleId);
@@ -215,20 +260,7 @@
             whoseTurnDiv.style.backgroundSize = 'cover';
             document.getElementById('dice').innerHTML='';
 
-            // Enable click/tap behavior on the board-image
-            const boardImage = document.getElementById('board-image');
-
-            // trigger animation when click on map
-            boardImage.addEventListener('click', (e) => {
-                if (activeCircle === null) return;
-
-                const containerRect = document.getElementById('board').getBoundingClientRect();
-                const newX = e.clientX - containerRect.left - activeCircle.offsetWidth / 2;
-                const newY = e.clientY - containerRect.top - activeCircle.offsetHeight / 2;
-                MoveOrNot = true; 
-                moveCircleTo(activeCircle, newX, newY);
-
-            });
+            
         }
 
         function moveCircleTo(circle, newX, newY) {
@@ -275,7 +307,6 @@
                 canMove = 0;
             }
             
-            
             // Reset the activeCircle to the current player's circle
             activeCircle = document.getElementById('circle' + canMove);
 
@@ -309,6 +340,7 @@
                 }
             }, 25);
         }
+        
     </script>
 </body>
 

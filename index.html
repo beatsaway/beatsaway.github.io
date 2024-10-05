@@ -3,27 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Links with Emojis</title>
+    <title>Beatsaway's works</title>
     <style>
         body {
             font-family: 'Cambria', sans-serif;
             margin: 0;
             padding: 20px;
             color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
+            
             transition: background 0.25s ease;
+            text-align: center; /* Center text inside the body */
         }
-        
+
         .links-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 12px;
             width: 100%;
             max-width: 1200px;
+            margin: 0 auto; /* Center the container horizontally */
         }
+        .intro {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
         .link-item {
             display: flex;
             flex-direction: column;
@@ -84,7 +91,10 @@
 
     </style>
 </head>
-<body>
+<body>  <div class="intro">
+        Hi, I'm Beatsaway. I design sound, music, visual, and interactive stuff. <br>
+        beats.away.official@gmail.com
+    </div>
     <div class="links-container">
         <div class="link-item"><a href="https://doordawv1.netlify.app" target="_blank">
             <div class="link-title"><span>🎵</span> DoorDraw V1</div>
